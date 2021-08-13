@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tranzact.Infrastructure
+namespace Tranzact.Domain.DTO
 {
     public class Class1
     {

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tranzact.Domain;
+using Tranzact.Domain.Interfaces;
+using Tranzact.Infrastructure;
+using Tranzact.Infrastructure.Interfaces;
+using Tranzact.Transversal;
 
 namespace Tranzact.Application
 {
@@ -26,6 +32,13 @@ namespace Tranzact.Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+
+            services.AddTransient<InterfaceContactDomain, ContactDomain>();
+            services.AddTransient<InterfaceContactInfraestructure, ContactInfraestructure>();
+
+            IMapper iMapper = Maps.InitMapper();
+            services.AddSingleton(iMapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tranzact.Domain.Test\Tranzact.Domain.Test.csproj" />
     <ProjectReference Include="..\Tranzact.Infrastructure\Tranzact.Infrastructure.csproj" />
     <ProjectReference Include="..\Tranzact.Transversal\Tranzact.Transversal.csproj" />
   </ItemGroup>

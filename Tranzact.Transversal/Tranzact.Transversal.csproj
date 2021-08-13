@@ -9,4 +9,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tranzact.Domain.DTO\Tranzact.Domain.DTO.csproj" />
+    <ProjectReference Include="..\Tranzact.Infrastructure.Models\Tranzact.Infrastructure.Models.csproj" />
+  </ItemGroup>
+
 </Project>

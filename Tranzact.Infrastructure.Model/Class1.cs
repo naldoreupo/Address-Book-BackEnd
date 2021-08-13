@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tranzact.Transversal
+namespace Tranzact.Infrastructure.Model
 {
     public class Class1
     {
