@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Tranzact.Domain.DTO;
 using Tranzact.Domain.Interfaces;
@@ -14,29 +16,44 @@ namespace Tranzact.Application.Controllers
     public class ContactController : ControllerBase
     {
         private readonly InterfaceContactDomain _contactDomain;
-        public ContactController(InterfaceContactDomain contactDomain)
+        private readonly ILogger<ContactController> _logger;
+        public ContactController(InterfaceContactDomain contactDomain, ILogger<ContactController> logger)
         {
             _contactDomain = contactDomain;
+            _logger = logger;
         }
 
-        [HttpGet("{id}")]
-        public async Task<Object> GetAsync(int id)
+        /// <summary>
+        /// Return a specific contact by id.
+        /// </summary>
+        /// <param name="id"></param>   
+        [HttpGet("{id}", Name = "GetContact")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             try
             {
+                _logger.LogInformation("Run endpoint {endpoint} {verb}", "/api/GetContact", "GET");
+
+                if (id <= 0)
+                    return BadRequest();
+
                 var result = await _contactDomain.Get(id);
 
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception exception)
             {
-                //logger  LogException(e);
-                return StatusCode(500);
+                _logger.LogError(exception, "Error while processing request from {id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error getting contact");
             }
         }
 
         [HttpGet("GetAll")]
-        public async Task<Object> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync()
         {
             try
             {
@@ -44,31 +61,40 @@ namespace Tranzact.Application.Controllers
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                //logger
-                return StatusCode(500);
+                _logger.LogError(exception, "Error while processing request from GetAllAsync");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error getting contacts");
             }
         }
 
         [HttpPost]
-        public async Task<Object> PostAsync(ContactDTO contactDTO)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PostAsync([FromBody] ContactDTO contactDTO)
         {
             try
             {
+                _logger.LogInformation("Run endpoint {endpoint} {verb}", "/api/GetContact", "POST");
+
+                if (contactDTO == null)
+                    return BadRequest();
+
                 var result = await _contactDomain.Save(contactDTO);
 
                 return Ok(result);
+
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                //logger
-                return StatusCode(500);
+                _logger.LogError(exception, "Error while processing request ", contactDTO);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new contact");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<Object> PutAsync(int id ,ContactDTO contactDTO)
+        public async Task<IActionResult> PutAsync(int id, ContactDTO contactDTO)
         {
             try
             {
@@ -78,15 +104,15 @@ namespace Tranzact.Application.Controllers
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                //logger
+                _logger.LogError(exception, "Error while processing request ", contactDTO);
                 return StatusCode(500);
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<Object> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             try
             {
@@ -94,10 +120,10 @@ namespace Tranzact.Application.Controllers
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                //logger
-                return StatusCode(500);
+                _logger.LogError(exception, "Error while processing request from {id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting contact");
             }
         }
     }

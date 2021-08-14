@@ -12,7 +12,7 @@ using AutoMapper;
 namespace Tranzact.Domain
 {
     public class ContactDomain : InterfaceContactDomain
-    {        
+    {
         private readonly InterfaceContactInfraestructure _contactInfraestructure;
         private readonly IMapper _mapper;
         public ContactDomain(IMapper mapper, InterfaceContactInfraestructure contactInfraestructure)
@@ -24,29 +24,50 @@ namespace Tranzact.Domain
 
         public Task<ContactDTO> Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<Response<ContactDTO>> GetAll()
         {
-            var list = _mapper.Map<List<ContactDTO>>(await _contactInfraestructure.GetAllContacts());
-
-            return new Response<ContactDTO>()
+            try
             {
-                Status = true,
-                List = list
-            };
+                var list = _mapper.Map<List<ContactDTO>>(await _contactInfraestructure.GetAllContacts());
+
+                return new Response<ContactDTO>()
+                {
+                    Status = true,
+                    List = list
+                };
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<Response<int>> Save(ContactDTO Contact)
         {
-            var entity = await _contactInfraestructure.SaveContact(_mapper.Map<Contact>(Contact));
-
-            return new Response<int>()
+            try
             {
-                Status = true,
-                Data = entity.Id
-            };
+                var entity = await _contactInfraestructure.SaveContact(_mapper.Map<Contact>(Contact));
+
+                return new Response<int>()
+                {
+                    Status = true,
+                    Data = entity.Id
+                };
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
         public Task<Response<bool>> Delete(int id)
         {
@@ -55,13 +76,20 @@ namespace Tranzact.Domain
 
         public async Task<Response<bool>> Update(ContactDTO Contact)
         {
-            var update = await _contactInfraestructure.Update(_mapper.Map<Contact>(Contact));
-
-            return new Response<bool>()
+            try
             {
-                Status = true,
-                Data = update
-            };
+                var update = await _contactInfraestructure.Update(_mapper.Map<Contact>(Contact));
+
+                return new Response<bool>()
+                {
+                    Status = true,
+                    Data = update
+                };
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

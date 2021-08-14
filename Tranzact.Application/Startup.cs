@@ -33,12 +33,13 @@ namespace Tranzact.Application
         {
             services.AddControllers();
 
-
             services.AddTransient<InterfaceContactDomain, ContactDomain>();
             services.AddTransient<InterfaceContactInfraestructure, ContactInfraestructure>();
 
             IMapper iMapper = Maps.InitMapper();
             services.AddSingleton(iMapper);
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +60,17 @@ namespace Tranzact.Application
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
         }
     }
 }
