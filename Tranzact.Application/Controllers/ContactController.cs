@@ -52,7 +52,12 @@ namespace Tranzact.Application.Controllers
             }
         }
 
+        /// <summary>
+        /// Return all contacts.
+        /// </summary>
         [HttpGet("GetAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllAsync()
         {
             try
@@ -111,11 +116,21 @@ namespace Tranzact.Application.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete a specific contact by id.
+        /// </summary>
+        /// <param name="id"></param>   
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             try
             {
+                if (id <= 0)
+                    return BadRequest();
+
                 var result = await _contactDomain.Delete(id);
 
                 return Ok(result);
