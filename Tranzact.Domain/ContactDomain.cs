@@ -22,11 +22,12 @@ namespace Tranzact.Domain
         }
 
 
-        public Task<ContactDTO> Get(int id)
+        public async Task<ContactDTO> GetContact(int id)
         {
             try
             {
-                throw new NotImplementedException();
+                var contact = _mapper.Map<ContactDTO>(await _contactInfraestructure.GetContactById(id));
+                return contact;
             }
             catch (Exception ex)
             {
@@ -69,16 +70,29 @@ namespace Tranzact.Domain
                 throw;
             }
         }
-        public Task<Response<bool>> Delete(int id)
+        public async Task<Response<bool>> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var update = await _contactInfraestructure.DeleteContact(id);
+
+                return new Response<bool>()
+                {
+                    Status = true,
+                    Data = update
+                };
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<Response<bool>> Update(ContactDTO Contact)
         {
             try
             {
-                var update = await _contactInfraestructure.Update(_mapper.Map<Contact>(Contact));
+                var update = await _contactInfraestructure.UpdateContact(_mapper.Map<Contact>(Contact));
 
                 return new Response<bool>()
                 {

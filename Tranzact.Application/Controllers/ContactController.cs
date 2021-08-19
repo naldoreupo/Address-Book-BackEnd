@@ -27,7 +27,7 @@ namespace Tranzact.Application.Controllers
         /// Return a specific contact by id.
         /// </summary>
         /// <param name="id"></param>   
-        [HttpGet("{id}", Name = "GetContact")]
+        [HttpGet("{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -41,7 +41,7 @@ namespace Tranzact.Application.Controllers
                 if (id <= 0)
                     return BadRequest();
 
-                var result = await _contactDomain.Get(id);
+                var result = await _contactDomain.GetContact(id);
 
                 return Ok(result);
             }

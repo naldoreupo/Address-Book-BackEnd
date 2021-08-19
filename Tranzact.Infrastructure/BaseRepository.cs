@@ -32,6 +32,20 @@ namespace Tranzact.Infrastructure
                 throw;
             }
         }
+        public async Task<T> GetById(int id)
+        {
+            try
+            {
+                var result = await DbSet.FindAsync(id);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
 
         public async Task<List<T>> GetAll()
         {

@@ -10,10 +10,11 @@ namespace Tranzact.Infrastructure.Interfaces
     public interface InterfaceContactInfraestructure
     {
 
+        Task<Contact> GetContactById(int id);
         Task<List<Contact>> GetAllContacts();
         Task<Contact> SaveContact(Contact Contact);
-        Task<bool> Update(Contact Contact);
-        Task<bool> Delete(int id);
+        Task<bool> UpdateContact(Contact Contact);
+        Task<bool> DeleteContact(int id);
 
     }
 }

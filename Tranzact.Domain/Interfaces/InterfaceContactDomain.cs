@@ -9,7 +9,7 @@ namespace Tranzact.Domain.Interfaces
 {
     public interface InterfaceContactDomain
     {
-        Task<ContactDTO> Get(int id);
+        Task<ContactDTO> GetContact(int id);
         Task<Response<ContactDTO>> GetAll();
         Task<Response<int>> Save(ContactDTO Contact);
         Task<Response<bool>> Update(ContactDTO Contact);

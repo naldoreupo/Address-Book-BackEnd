@@ -12,15 +12,23 @@ namespace Tranzact.Infrastructure
     {
         public async Task<List<Contact>> GetAllContacts()
         {
-            return await GetAll();
-       
+            try
+            {
+                return await GetAll();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
 
         public async Task<Contact> SaveContact(Contact Contact)
         {
             try
             {
-                return  await Save(Contact);       
+                return await Save(Contact);
             }
             catch (Exception ex)
             {
@@ -28,16 +36,29 @@ namespace Tranzact.Infrastructure
             }
         }
 
-        Task<bool> InterfaceContactInfraestructure.Delete(int id)
+        public async Task<bool> DeleteContact(int id)
         {
-            throw new NotImplementedException();
+            return await Delete(id);
         }
 
-        async Task<bool> InterfaceContactInfraestructure.Update(Contact Contact)
+        public async Task<bool> UpdateContact(Contact Contact)
         {
             try
             {
                 return await Update(Contact);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Contact> GetContactById(int id)
+        {
+            try
+            {
+                return await GetById(id);
+
             }
             catch (Exception ex)
             {

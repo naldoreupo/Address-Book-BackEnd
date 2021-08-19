@@ -31,6 +31,8 @@ namespace Tranzact.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddControllers();
 
             services.AddTransient<InterfaceContactDomain, ContactDomain>();
@@ -40,6 +42,8 @@ namespace Tranzact.Application
             services.AddSingleton(iMapper);
 
             services.AddSwaggerGen();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,8 +72,14 @@ namespace Tranzact.Application
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Address book APIs V1");
             });
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) 
+                .AllowCredentials()); 
 
         }
     }
