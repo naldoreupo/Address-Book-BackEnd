@@ -45,6 +45,7 @@ namespace Tranzact.Infrastructure
         {
             try
             {
+                Contact.IsActive = true;
                 return await Update(Contact);
             }
             catch (Exception ex)

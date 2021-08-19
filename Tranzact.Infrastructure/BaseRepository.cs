@@ -66,6 +66,7 @@ namespace Tranzact.Infrastructure
             try
             {
                 DbSet.Update(entidad);
+                
                 await Context.SaveChangesAsync();
 
                 return true;
@@ -79,7 +80,7 @@ namespace Tranzact.Infrastructure
         {
             try
             {
-                var entidad = DbSet.Find(id);
+                var entidad = await DbSet.FindAsync(id);
                 DbSet.Remove(entidad);
                 await Context.SaveChangesAsync();
 
